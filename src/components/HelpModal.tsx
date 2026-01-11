@@ -128,7 +128,8 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
 
               <h3>2. 점수 획득</h3>
               <ul>
-                <li>한 번에 젤리를 많이 뽑을수록 획득하는 점수가 2배로 늘어납니다.</li>
+                <li>매 턴마다 한 번에 뽑는 젤리의 수에 따라 점수를 획득합니다.</li>
+                <li>젤리를 많이 뽑을수록 획득하는 점수가 2배로 늘어납니다.</li>
                 <div><Jelly size={24} /><WS /><FaArrowRight /><WS />1점</div>
                 <div><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />2점</div>
                 <div><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />4점</div>
@@ -166,12 +167,13 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
               <ul>
                 <li>The jelly box contains a total of 27 jellies.</li>
                 <li>Between 1 and 8 of them are “bullet jellies.”</li>
-                <li>On each turn, players alternate and draw as many jellies as they want.</li>
+                <li>Players take turns, and on each turn may draw any number of jellies they choose.</li>
               </ul>
 
               <h3>2. Scoring</h3>
               <ul>
-                <li>The more jellies you draw at once, the score you gain doubles accordingly.</li>
+                <li>On each turn, you earn points based on how many jellies you draw at once.</li>
+                <li>The more jellies you draw, the score doubles each time.</li>
                 <div><Jelly size={24} /><WS /><FaArrowRight /><WS />1 points</div>
                 <div><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />2 points</div>
                 <div><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />4 points</div>
@@ -185,18 +187,10 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
               </ul>
               <h3>3. End of the Game</h3>
               <ul>
-                <li>
-                  At the start of the game, the number of bullets is not revealed.
-                </li>
-                <li>
-                  Once at least one bullet is drawn, the number of remaining bullets is revealed.
-                </li>
-                <li>
-                  When the last remaining bullet is drawn, the game ends immediately.
-                </li>
-                <li>
-                  The player with the higher score at the end of the game wins.
-                </li>
+                <li>At the start of the game, the number of bullets is hidden.</li>
+                <li>Once at least one bullet is drawn, the number of remaining bullets is revealed.</li>
+                <li>When the last remaining bullet is drawn, the game ends immediately.</li>
+                <li>The player with the higher score at the end of the game wins.</li>
               </ul>
             </>
           )}
