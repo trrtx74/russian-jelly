@@ -5,6 +5,7 @@ import { ControlPanel } from './ControlPanel';
 import { LogPanel } from './LogPanel';
 import { useAgent } from '../services/useAgent';
 import { JellyCounter } from './JellyCounter';
+import { JellyIndicator } from './JellyIndicator';
 import { PlayerSection } from './PlayerSection';
 
 // Layout Components
@@ -126,11 +127,15 @@ const GameBoard = () => {
         />
       </PlayerSectionContainer>
 
+      <JellyIndicator
+        jellyCount={playerJellies.PLAYER_1 + playerJellies.PLAYER_2 - playerBullets.PLAYER_1 - playerBullets.PLAYER_2}
+        bulletCount={playerBullets.PLAYER_1 + playerBullets.PLAYER_2}
+      />
       <CounterContainer>
         {isBulletRevealed ? (
           <>
-            <JellyCounter count={jelliesRemaining} type="JELLY" />
             <JellyCounter count={bulletsRemaining} type="BULLET" />
+            <JellyCounter count={jelliesRemaining} type="JELLY" />
           </>
         ) : (
           <JellyCounter count={jelliesRemaining} type="COMBINED" />

@@ -9,7 +9,7 @@ export const theme = {
     jelly: '#FFFFAA', // Gold/Yellow for Jelly
     bullet: '#000000', // Black for Bullet
     success: '#27df2dff',
-    error: '#f08982ff',
+    error: '#e9554bff',
   },
   borderRadius: '16px',
   transitions: {

@@ -36,6 +36,9 @@ const CounterDiff = styled.div`
       opacity: 1;
       transform: translateY(0);
     }
+    80% {
+      opacity: 1;
+    }
     100% {
       opacity: 0;
       transform: translateY(-10px);
@@ -46,6 +49,9 @@ const CounterDiff = styled.div`
     0% {
       opacity: 1;
       transform: translateY(0);
+    }
+    80% {
+      opacity: 1;
     }
     100% {
       opacity: 0;
@@ -82,9 +88,9 @@ export const JellyCounter = ({
   if (type === 'COMBINED') {
     return (
       <Container>
-        <Jelly type="JELLY" size={size} />
-        <FaPlus size={size / 4} />
         <Jelly type="BULLET" size={size} />
+        <FaPlus size={size / 4} />
+        <Jelly type="JELLY" size={size} />
         <Counter>
           {count}
         </Counter>

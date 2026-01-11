@@ -44,6 +44,9 @@ const ScoreDiff = styled.div<{ $isBad?: boolean }>`
       opacity: 1;
       transform: translateY(0);
     }
+    50% {
+      opacity: 1;
+    }
     100% {
       opacity: 0;
       transform: translateY(-10px);
@@ -54,6 +57,9 @@ const ScoreDiff = styled.div<{ $isBad?: boolean }>`
     0% {
       opacity: 1;
       transform: translateY(0);
+    }
+    50% {
+      opacity: 1;
     }
     100% {
       opacity: 0;
@@ -98,14 +104,14 @@ export const PlayerSection = ({
       <ScoreDisplay $size={scoreSize}>
         {score.toLocaleString()}
         <ScoreDiff
-          style={{ animation: anim ? `ScoreDiffAnimation${anim} 2s` : 'none' }}
+          style={{ animation: anim ? `ScoreDiffAnimation${anim} 3s` : 'none' }}
           $isBad={diff < 0}
         >
           {diff > 0 && "+"}{diff.toLocaleString()}
         </ScoreDiff>
       </ScoreDisplay>
-      <JellyCounter count={jellies - bullets} type="JELLY" size={32} diffEffect={true} />
-      <JellyCounter count={bullets} type="BULLET" size={32} diffEffect={true} />
+      <JellyCounter count={jellies - bullets} type="JELLY" size={32} />
+      <JellyCounter count={bullets} type="BULLET" size={32} />
       {/* <button
         onClick={surrender}
         style={{
