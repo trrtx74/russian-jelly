@@ -128,7 +128,7 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
 
               <h3>2. 점수 획득</h3>
               <ul>
-                <li>젤리를 많이 뽑을수록 획득하는 점수가 2배로 늘어납니다.</li>
+                <li>한 번에 젤리를 많이 뽑을수록 획득하는 점수가 2배로 늘어납니다.</li>
                 <div><Jelly size={24} /><WS /><FaArrowRight /><WS />1점</div>
                 <div><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />2점</div>
                 <div><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />4점</div>
@@ -171,7 +171,7 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
 
               <h3>2. Scoring</h3>
               <ul>
-                <li>The more jellies you draw, the score you gain doubles accordingly.</li>
+                <li>The more jellies you draw at once, the score you gain doubles accordingly.</li>
                 <div><Jelly size={24} /><WS /><FaArrowRight /><WS />1 points</div>
                 <div><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />2 points</div>
                 <div><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />4 points</div>
