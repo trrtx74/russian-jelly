@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { FaTimes } from "react-icons/fa";
 
 interface HelpModalProps {
   isOpen: boolean;
@@ -22,16 +21,14 @@ const Overlay = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
   background: ${({ theme }) => theme.colors.background};
   border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: 16px;
-  padding: 10px;
+  padding: 30px;
   max-width: 500px;
   width: 90%;
   max-height: 90vh;
+  overflow-y: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 `;
 
@@ -43,10 +40,8 @@ const Title = styled.h2`
 
 const Content = styled.div`
   color: ${({ theme }) => theme.colors.text};
-  padding: 10px;
   line-height: 1.6;
   font-size: 0.95rem;
-  overflow-y: auto;
 
   h3 {
     color: ${({ theme }) => theme.colors.secondary};
@@ -63,14 +58,8 @@ const Content = styled.div`
 `;
 
 const CloseButton = styled.button`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 10px;
-  right: 10px;
-  width: 40px;
-  height: 40px;
+  margin-top: 20px;
+  width: 100%;
   padding: 12px;
   background: ${({ theme }) => theme.colors.primary};
   color: white;
@@ -90,20 +79,16 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
     <Overlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <Title>{language === 'ko' ? '게임 규칙' : 'Game Rules'}</Title>
-        <CloseButton onClick={onClose}>
-          <FaTimes size={20} />
-        </CloseButton>
         <Content>
           {language === 'ko' ? (
             <>
-              <h2>러시안 젤리</h2>
-              <p>러시안 젤리는 마사토끼/joana 작가의 만화 <a href="https://comic.naver.com/webtoon/list?titleId=670145" target="_blank">킬더킹</a>에 등장하는 2인 전략 게임입니다.</p>
-              <p>총알 젤리가 섞인 27의 젤리 중에서 두 사람이 번갈아가며 젤리를 뽑고, 점수를 더 많이 획득한 사람이 승리합니다.</p>
+              <h3>1. 게임 목표</h3>
+              <p>상대방보다 더 높은 점수를 얻으면 승리합니다.</p>
 
-              <h3>1. 진행 방법</h3>
+              <h3>2. 진행 방법</h3>
               <ul>
                 <li>젤리 박스에는 총 27개의 젤리가 들어있습니다.</li>
-                <li>그 중 1~8개는 '총알 젤리'입니다.</li>
+                <li>그 중 1~8개는 '총알 젤리'입니다. (게임 시작 시 비공개)</li>
                 <li>자신의 턴에 원하는 만큼 젤리를 뽑을 수 있습니다.</li>
               </ul>
 
@@ -139,6 +124,7 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
             </>
           )}
         </Content>
+        <CloseButton onClick={onClose}>{language === 'ko' ? '닫기' : 'Close'}</CloseButton>
       </ModalContainer>
     </Overlay>
   );

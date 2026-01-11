@@ -8,15 +8,32 @@ import {
 } from '../utils/gameRules';
 import type { Player } from '../utils/gameRules';
 
-interface VsCpuStats {
-  totalGames: number; // Incremented at start
+interface Stats {
+  totalGames: number;
   wins: number;
   draws: number;
+}
+
+interface VsCpuStats {
+  easy: Stats;
+  medium: Stats;
+  hard: Stats;
+}
+
+interface HistoryItem {
+  id: number;
+  type: 'START' | 'DRAW' | 'REVEAL' | 'SURRENDER' | 'END';
+  player: string;
+  count: number;
+  bulletCount: number;
+  totalScore: number;
+  bulletsLeft: number | null;
 }
 
 interface GameStore {
   // Session State (Persisted)
   vsCpuStats: VsCpuStats;
+  twoPlayerStats: Stats;
   language: 'ko' | 'en';
   setLanguage: (lang: 'ko' | 'en') => void;
   resetHistory: () => void;
@@ -28,12 +45,15 @@ interface GameStore {
   isBulletRevealed: boolean;
   currentTurn: Player;
   scores: Record<Player, number>;
-  startingPlayer: Player;
+  playerJellies: Record<Player, number>;
+  playerBullets: Record<Player, number>;
   winner: Player | 'DRAW' | null;
   mode: 'VS_CPU' | 'VS_HUMAN';
+  cpuDifficulty: 'easy' | 'medium' | 'hard';
+  history: HistoryItem[];
 
   // Actions
-  startGame: (mode: 'VS_CPU' | 'VS_HUMAN') => void;
+  startGame: (mode: 'VS_CPU' | 'VS_HUMAN', difficulty?: 'easy' | 'medium' | 'hard') => void;
   quitGame: () => void;
   drawJellies: (count: number) => void;
   surrender: () => void;
@@ -43,12 +63,22 @@ export const useGameStore = create<GameStore>()(
   persist(
     (set, get) => ({
       // Initial Session State
-      vsCpuStats: { totalGames: 0, wins: 0, draws: 0 },
+      vsCpuStats: {
+        easy: { totalGames: 0, wins: 0, draws: 0 },
+        medium: { totalGames: 0, wins: 0, draws: 0 },
+        hard: { totalGames: 0, wins: 0, draws: 0 },
+      },
+      twoPlayerStats: { totalGames: 0, wins: 0, draws: 0 },
       language: 'ko',
       setLanguage: (lang) => set({ language: lang }),
       resetHistory: () =>
         set({
-          vsCpuStats: { totalGames: 0, wins: 0, draws: 0 },
+          vsCpuStats: {
+            easy: { totalGames: 0, wins: 0, draws: 0 },
+            medium: { totalGames: 0, wins: 0, draws: 0 },
+            hard: { totalGames: 0, wins: 0, draws: 0 },
+          },
+          twoPlayerStats: { totalGames: 0, wins: 0, draws: 0 },
         }),
 
       // Initial Game State
@@ -58,33 +88,48 @@ export const useGameStore = create<GameStore>()(
       isBulletRevealed: false,
       currentTurn: 'PLAYER_1',
       scores: { PLAYER_1: 0, PLAYER_2: 0 },
-      startingPlayer: 'PLAYER_2', // Will swap to PLAYER_1 on first game
+      playerJellies: { PLAYER_1: 0, PLAYER_2: 0 },
+      playerBullets: { PLAYER_1: 0, PLAYER_2: 0 },
       winner: null,
       mode: 'VS_CPU',
+      cpuDifficulty: 'hard',
+      history: [],
 
-      startGame: (mode) => {
-        const { startingPlayer } = get();
-        const nextStartingPlayer =
-          startingPlayer === 'PLAYER_1' ? 'PLAYER_2' : 'PLAYER_1';
+      startGame: (mode, difficulty = 'hard') => {
         const bullets = generateBullets();
 
         set((state) => {
-          const newStats = { ...state.vsCpuStats };
+          const newCpuStats = { ...state.vsCpuStats };
           if (mode === 'VS_CPU') {
-            newStats.totalGames += 1;
+            newCpuStats[difficulty].totalGames += 1;
           }
+
+          const startingPlayer = mode === 'VS_CPU'
+            ? state.vsCpuStats[difficulty].totalGames % 2 === 0 ? 'PLAYER_1' : 'PLAYER_2'
+            : state.twoPlayerStats.totalGames % 2 === 0 ? 'PLAYER_1' : 'PLAYER_2';
 
           return {
             status: 'PLAYING',
             jelliesRemaining: INITIAL_JELLIES,
             bulletsRemaining: bullets,
             isBulletRevealed: false,
-            currentTurn: nextStartingPlayer,
-            startingPlayer: nextStartingPlayer,
+            currentTurn: startingPlayer,
             scores: { PLAYER_1: 0, PLAYER_2: 0 },
+            playerJellies: { PLAYER_1: 0, PLAYER_2: 0 },
+            playerBullets: { PLAYER_1: 0, PLAYER_2: 0 },
             winner: null,
             mode: mode,
-            vsCpuStats: newStats,
+            cpuDifficulty: difficulty,
+            vsCpuStats: newCpuStats,
+            history: [{
+              id: 0,
+              type: 'START',
+              player: startingPlayer,
+              count: 0,
+              bulletCount: 0,
+              totalScore: 0,
+              bulletsLeft: null,
+            }],
           };
         });
       },
@@ -99,8 +144,11 @@ export const useGameStore = create<GameStore>()(
           bulletsRemaining,
           currentTurn,
           scores,
+          playerJellies,
+          playerBullets,
           status,
           isBulletRevealed,
+          history,
         } = get();
 
         if (status !== 'PLAYING') return;
@@ -116,13 +164,44 @@ export const useGameStore = create<GameStore>()(
           ...scores,
           [currentTurn]: scores[currentTurn] + scoreChange,
         };
+        const newPlayerJellies = {
+          ...playerJellies,
+          [currentTurn]: playerJellies[currentTurn] + count,
+        };
+        const newPlayerBullets = {
+          ...playerBullets,
+          [currentTurn]: playerBullets[currentTurn] + bulletsDrawn,
+        };
+
+        const newHistory = [...history];
+
+        const drawHistoryItem = {
+          id: newHistory.length + 1,
+          type: 'DRAW',
+          player: currentTurn,
+          count: count,
+          bulletCount: bulletsDrawn,
+          totalScore: scores[currentTurn] + scoreChange,
+          bulletsLeft: isBulletRevealed ? newTotalBullets : null,
+        } as HistoryItem;
+        newHistory.push(drawHistoryItem);
 
         const newIsBulletRevealed = isBulletRevealed || bulletsDrawn > 0;
 
-        // Game Over Condition: LAST bullet drawn.
-        // Rule: "마지막 총알 젤리가 뽑힌 순간 게임이 종료됨"
-        // This means if newTotalBullets === 0 (and we started with > 0), game ends.
         const isGameOver = newTotalBullets === 0;
+
+        if (!isBulletRevealed && newIsBulletRevealed) {
+          const revealHistoryItem = {
+            id: newHistory.length + 1,
+            type: 'REVEAL',
+            player: currentTurn,
+            count: 0,
+            bulletCount: bulletsDrawn,
+            totalScore: scores[currentTurn] + scoreChange,
+            bulletsLeft: newTotalBullets,
+          } as HistoryItem;
+          newHistory.push(revealHistoryItem);
+        }
 
         if (isGameOver) {
           const p1Score = newScores.PLAYER_1;
@@ -134,58 +213,101 @@ export const useGameStore = create<GameStore>()(
           else winner = 'DRAW';
 
           set((state) => {
-            const newStats = { ...state.vsCpuStats };
+            const newCpuStats = { ...state.vsCpuStats };
+            const newTwoPlayerStats = { ...state.twoPlayerStats };
 
             // Only update wins/draws if in VS_CPU mode
             // totalGames was already incremented at start
             if (state.mode === 'VS_CPU') {
               if (winner === 'PLAYER_1') {
                 // User won (assuming Player 1 is user in VS CPU)
-                newStats.wins++;
+                newCpuStats[state.cpuDifficulty].wins++;
               } else if (winner === 'DRAW') {
-                newStats.draws++;
+                newCpuStats[state.cpuDifficulty].draws++;
+              }
+            } else {
+              newTwoPlayerStats.totalGames++;
+              if (winner === 'PLAYER_1') {
+                newTwoPlayerStats.wins++;
+              } else if (winner === 'DRAW') {
+                newTwoPlayerStats.draws++;
               }
             }
+
+            const endHistoryItem = {
+              id: newHistory.length + 2,
+              type: 'END',
+              player: winner,
+              count: count,
+              bulletCount: bulletsDrawn,
+              totalScore: scoreChange,
+            } as HistoryItem;
+            newHistory.push(endHistoryItem);
 
             return {
               jelliesRemaining: newTotalJellies,
               bulletsRemaining: newTotalBullets,
               scores: newScores,
+              playerJellies: newPlayerJellies,
+              playerBullets: newPlayerBullets,
               status: 'ENDED',
               winner,
-              vsCpuStats: newStats,
-              isBulletRevealed: newIsBulletRevealed
+              vsCpuStats: newCpuStats,
+              twoPlayerStats: newTwoPlayerStats,
+              isBulletRevealed: newIsBulletRevealed,
+              history: newHistory,
             };
           });
         } else {
           // Switch Turn
           const nextTurn = currentTurn === 'PLAYER_1' ? 'PLAYER_2' : 'PLAYER_1';
-          set({
-            jelliesRemaining: newTotalJellies,
-            bulletsRemaining: newTotalBullets,
-            scores: newScores,
-            currentTurn: nextTurn,
-            isBulletRevealed: newIsBulletRevealed,
+          set(() => {
+            return {
+              jelliesRemaining: newTotalJellies,
+              bulletsRemaining: newTotalBullets,
+              scores: newScores,
+              playerJellies: newPlayerJellies,
+              playerBullets: newPlayerBullets,
+              currentTurn: nextTurn,
+              isBulletRevealed: newIsBulletRevealed,
+              history: newHistory,
+            };
           });
         }
       },
 
       surrender: () => {
-        const { currentTurn, status } = get();
+        const { currentTurn, status, history } = get();
         if (status !== 'PLAYING') return;
 
         const winner = currentTurn === 'PLAYER_1' ? 'PLAYER_2' : 'PLAYER_1';
+        const newHistoryItem = {
+          id: history.length + 1,
+          type: 'SURRENDER',
+          player: winner,
+          count: 0,
+          bulletCount: 0,
+          totalScore: 0,
+        } as HistoryItem;
 
-        set(() => {
-          // Surrender counts as loss, so no win update for P1
-          // If CPU surrendered (impossible logically but handled), P1 wins?
-          // Actually surrender is only for Human Player 1?
-          // If Human surrenders, they lose. 
-          // totalGames already ++, wins not ++. Correct.
-
+        set((state) => {
+          if (state.mode === 'VS_HUMAN') {
+            const newTwoPlayerStats = { ...state.twoPlayerStats };
+            newTwoPlayerStats.totalGames++;
+            if (winner === 'PLAYER_1') {
+              newTwoPlayerStats.wins++;
+            }
+            return {
+              status: 'ENDED',
+              winner,
+              twoPlayerStats: newTwoPlayerStats,
+              history: [...state.history, newHistoryItem]
+            };
+          }
           return {
             status: 'ENDED',
             winner,
+            history: [...state.history, newHistoryItem]
           };
         });
       },
@@ -194,6 +316,7 @@ export const useGameStore = create<GameStore>()(
       name: 'russian-jelly-storage',
       partialize: (state) => ({
         vsCpuStats: state.vsCpuStats,
+        twoPlayerStats: state.twoPlayerStats,
         language: state.language,
       }),
     }
