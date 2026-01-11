@@ -19,7 +19,8 @@ const Container = styled.div`
 
 const ContentsWrapper = styled.div`
   width: 100%;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 60px); /* old browser fallback */
+  height: calc(100dvh - 60px);
 
   @media (max-width: 768px) {
     height: calc(100vh - 48px);

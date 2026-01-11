@@ -54,7 +54,7 @@ export const LogPanel = () => {
       )
     } else if (log.type === 'REVEAL') {
       return (language === 'ko'
-        ? `첫 총알이 뽑혔습니다. 남은 총알은 ${log.bulletsLeft}개 입니다.`
+        ? `첫 총알이 뽑혔습니다. 남은 총알은 ${log.bulletsLeft}개입니다.`
         : `First bullet drawn. ${log.bulletsLeft} ${log.bulletsLeft === 1 ? 'bullet' : 'bullets'} left.`
       );
     } else if (log.type === 'END') {

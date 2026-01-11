@@ -84,10 +84,14 @@ const NavButton = styled.button`
   }
 `;
 
+const ResetButton = styled(NavButton)`
+  margin-left: auto;
+`;
+
 const StatsContainer = styled.div`
   position: absolute;
   top: 100%;
-  right: 40px;
+  right: 36px;
   top: 100%;
 
   width: 200px;
@@ -100,7 +104,7 @@ const StatsContainer = styled.div`
 `
 
 export const Navbar = ({ onOpenHelp }: NavbarProps) => {
-  const { language, setLanguage, status, quitGame, vsCpuStats, twoPlayerStats, mode } = useGameStore();
+  const { language, setLanguage, status, quitGame, vsCpuStats, twoPlayerStats, resetHistory, mode } = useGameStore();
   const [isStatsOpen, setIsStatsOpen] = useState(false);
 
   const toggleLanguage = () => {
@@ -119,6 +123,12 @@ export const Navbar = ({ onOpenHelp }: NavbarProps) => {
       quitGame();
     }
   };
+
+  const handleResetStats = () => {
+    if (window.confirm(language === 'ko' ? '전적을 초기화하시겠습니까?' : 'Are you sure you want to reset your stats?')) {
+      resetHistory();
+    }
+  }
 
   const cpuTotal = vsCpuStats.hard.totalGames - (mode === 'VS_CPU' && status === 'PLAYING' ? 1 : 0);
   const cpuLoss = cpuTotal - vsCpuStats.hard.wins - vsCpuStats.hard.draws;
@@ -143,12 +153,15 @@ export const Navbar = ({ onOpenHelp }: NavbarProps) => {
           <FaTrophy size={16} />
         </NavButton>
         {isStatsOpen && (
-          <StatsContainer>
+          <StatsContainer onMouseDown={(e) => e.preventDefault()}>
             <h4>VS CPU</h4>
             <p>{cpuStats}</p>
             <h4>1P VS 2P</h4>
             <p>{humanStats}</p>
             <p style={{ fontStyle: 'italic', fontSize: '0.8rem' }}>{language === 'ko' ? '(승/패/무)' : '(Win/Lose/Draw)'}</p>
+            <ResetButton onClick={handleResetStats}>
+              {language === 'ko' ? '초기화' : 'Reset'}
+            </ResetButton>
           </StatsContainer>
         )}
         <NavButton onClick={toggleLanguage}>

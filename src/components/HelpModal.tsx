@@ -13,7 +13,8 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100vh; /* old browser fallback */
+  height: 100dvh;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
@@ -152,11 +153,9 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
             <>
               <h2>Russian Jelly</h2>
               <p>
-                Russian Jelly is a two-player strategy game that appears in the webtoon
-                <a href="https://comic.naver.com/webtoon/list?titleId=670145" target="_blank">
+                Russian Jelly is a two-player strategy game that appears in the webtoon <a href="https://comic.naver.com/webtoon/list?titleId=670145" target="_blank">
                   Kill the King
-                </a>
-                by the creators MASATOKKI / joana.
+                </a> by the creators MASATOKKI / joana.
               </p>
               <p>
                 Out of 27 jellies mixed with bullet jellies, two players take turns drawing

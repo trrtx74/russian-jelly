@@ -135,7 +135,7 @@ const GameBoard = () => {
         {isBulletRevealed ? (
           <>
             <JellyCounter count={bulletsRemaining} type="BULLET" />
-            <JellyCounter count={jelliesRemaining} type="JELLY" />
+            <JellyCounter count={jelliesRemaining - bulletsRemaining} type="JELLY" />
           </>
         ) : (
           <JellyCounter count={jelliesRemaining} type="COMBINED" />
