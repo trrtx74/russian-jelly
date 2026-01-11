@@ -10,9 +10,6 @@ import { HelpModal } from './components/HelpModal';
 import { useGameStore } from './store/useGameStore';
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100vw;
   height: 100vh;
 `;
@@ -21,6 +18,10 @@ const ContentsWrapper = styled.div`
   width: 100%;
   height: calc(100vh - 60px); /* old browser fallback */
   height: calc(100dvh - 60px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   @media (max-width: 768px) {
     height: calc(100vh - 48px);

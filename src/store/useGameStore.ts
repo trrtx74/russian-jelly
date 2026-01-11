@@ -110,14 +110,14 @@ export const useGameStore = create<GameStore>()(
         const bullets = generateBullets();
 
         set((state) => {
+          const startingPlayer = mode === 'VS_CPU'
+            ? state.vsCpuStats[difficulty].totalGames % 2 === 0 ? 'PLAYER_1' : 'PLAYER_2'
+            : state.twoPlayerStats.totalGames % 2 === 0 ? 'PLAYER_1' : 'PLAYER_2';
+
           const newCpuStats = { ...state.vsCpuStats };
           if (mode === 'VS_CPU') {
             newCpuStats[difficulty].totalGames += 1;
           }
-
-          const startingPlayer = mode === 'VS_CPU'
-            ? state.vsCpuStats[difficulty].totalGames % 2 === 0 ? 'PLAYER_1' : 'PLAYER_2'
-            : state.twoPlayerStats.totalGames % 2 === 0 ? 'PLAYER_1' : 'PLAYER_2';
 
           return {
             status: 'PLAYING',
