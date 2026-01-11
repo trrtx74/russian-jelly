@@ -110,8 +110,8 @@ export const Navbar = ({ onOpenHelp }: NavbarProps) => {
   const handleBackToMenu = () => {
     if (status === 'PLAYING') {
       const message = language === 'ko'
-        ? '정말 나가시겠습니까?' + (mode === 'VS_CPU' && ' 패배로 기록됩니다.')
-        : 'Are you sure you want to quit?' + (mode === 'VS_CPU' && ' The game will be recorded as a loss.');
+        ? '정말 나가시겠습니까?' + (mode === 'VS_CPU' ? ' 패배로 기록됩니다.' : '')
+        : 'Are you sure you want to quit?' + (mode === 'VS_CPU' ? ' The game will be recorded as a loss.' : '');
       if (window.confirm(message)) {
         quitGame();
       }
