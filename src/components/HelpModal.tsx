@@ -66,7 +66,7 @@ const Content = styled.div`
     margin-bottom: 5px;
   }
 
-  ul p {
+  ul div {
     display: flex;
     align-items: center;
   }
@@ -128,16 +128,16 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
               <h3>2. 점수 획득</h3>
               <ul>
                 <li>젤리를 많이 뽑을수록 획득하는 점수가 2배로 늘어납니다.</li>
-                <p><Jelly size={24} /><WS /><FaArrowRight /><WS />1점</p>
-                <p><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />2점</p>
-                <p><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />4점</p>
-                <p><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />8점</p>
-                <p><WSWide />⁝</p>
+                <div><Jelly size={24} /><WS /><FaArrowRight /><WS />1점</div>
+                <div><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />2점</div>
+                <div><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />4점</div>
+                <div><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />8점</div>
+                <div><WSWide />⁝</div>
                 <li>총알 젤리가 뽑혔다면, 점수를 얻는 대신 뽑힌 수만큼 추가로 곱해 점수를 잃습니다.</li>
-                <p><Jelly size={24} type="BULLET" /><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />-8점</p>
-                <p><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />-16점</p>
-                <p><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} /><WS /><FaArrowRight /><WS />-24점</p>
-                <p><WSWide />⁝</p>
+                <div><Jelly size={24} type="BULLET" /><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />-8점</div>
+                <div><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />-16점</div>
+                <div><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} /><WS /><FaArrowRight /><WS />-24점</div>
+                <div><WSWide />⁝</div>
               </ul>
 
               <h3>3. 게임 종료</h3>
@@ -173,16 +173,16 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
               <h3>2. Scoring</h3>
               <ul>
                 <li>The more jellies you draw, the score you gain doubles accordingly.</li>
-                <p><Jelly size={24} /><WS /><FaArrowRight /><WS />1 points</p>
-                <p><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />2 points</p>
-                <p><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />4 points</p>
-                <p><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />8 points</p>
-                <p><WSWide />⁝</p>
+                <div><Jelly size={24} /><WS /><FaArrowRight /><WS />1 points</div>
+                <div><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />2 points</div>
+                <div><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />4 points</div>
+                <div><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />8 points</div>
+                <div><WSWide />⁝</div>
                 <li>If one or more bullets are drawn, you instead lose points multiplied by the number of bullets.</li>
-                <p><Jelly size={24} type="BULLET" /><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />-8 points</p>
-                <p><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />-16 points</p>
-                <p><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} /><WS /><FaArrowRight /><WS />-24 points</p>
-                <p><WSWide />⁝</p>
+                <div><Jelly size={24} type="BULLET" /><Jelly size={24} /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />-8 points</div>
+                <div><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} /><Jelly size={24} /><WS /><FaArrowRight /><WS />-16 points</div>
+                <div><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} type="BULLET" /><Jelly size={24} /><WS /><FaArrowRight /><WS />-24 points</div>
+                <div><WSWide />⁝</div>
               </ul>
               <h3>3. End of the Game</h3>
               <ul>

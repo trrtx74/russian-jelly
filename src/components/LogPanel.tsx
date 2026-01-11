@@ -9,10 +9,10 @@ const Container = styled.div`
   flex: 1;
   min-height: 0;
 
-  border: 1px solid #101010;
+  border: 1px solid #4F451A;
   border-radius: 6px;
 
-  background-color: #10101030;
+  background-color: #4F451A30;
 `;
 
 const Panel = styled.div`

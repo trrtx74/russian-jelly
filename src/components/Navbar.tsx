@@ -9,20 +9,21 @@ interface NavbarProps {
 
 const NavContainer = styled.nav`
   width: 100%;
-  /* height: 60px; */
+  height: 60px;
   background-color: ${({ theme }) => theme.colors.background};
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   left: 0;
   z-index: 100;
   box-shadow: 0 2px 6px #D1C8A3;
 
   @media (max-width: 768px) {
-    padding: 10px 10px;
+    height: 48px;
+    padding: 5px 10px;
   }
 `;
 
@@ -44,9 +45,14 @@ const NavActions = styled.div`
   position: relative;
   display: flex;
   gap: 10px;
+
+  @media (max-width: 768px) {
+    gap: 5px;
+  }
 `;
 
 const NavButton = styled.button`
+  height: 32px;
   background: transparent;
   color: ${({ theme }) => theme.colors.text};
 
@@ -72,6 +78,10 @@ const NavButton = styled.button`
     opacity: 0.5;
     cursor: default;
   }
+
+  @media (max-width: 768px) {
+    height: 36px;
+  }
 `;
 
 const StatsContainer = styled.div`
@@ -90,7 +100,7 @@ const StatsContainer = styled.div`
 `
 
 export const Navbar = ({ onOpenHelp }: NavbarProps) => {
-  const { language, setLanguage, status, quitGame, vsCpuStats, twoPlayerStats } = useGameStore();
+  const { language, setLanguage, status, quitGame, vsCpuStats, twoPlayerStats, mode } = useGameStore();
   const [isStatsOpen, setIsStatsOpen] = useState(false);
 
   const toggleLanguage = () => {
@@ -100,9 +110,8 @@ export const Navbar = ({ onOpenHelp }: NavbarProps) => {
   const handleBackToMenu = () => {
     if (status === 'PLAYING') {
       const message = language === 'ko'
-        ? '정말 나가시겠습니까?'
-        : 'Are you sure you want to quit?';
-
+        ? '정말 나가시겠습니까?' + (mode === 'VS_CPU' && ' 패배로 기록됩니다.')
+        : 'Are you sure you want to quit?' + (mode === 'VS_CPU' && ' The game will be recorded as a loss.');
       if (window.confirm(message)) {
         quitGame();
       }
@@ -111,7 +120,10 @@ export const Navbar = ({ onOpenHelp }: NavbarProps) => {
     }
   };
 
-  const cpuStats = `${vsCpuStats.hard.wins} / ${vsCpuStats.hard.totalGames - vsCpuStats.hard.wins - vsCpuStats.hard.draws} / ${vsCpuStats.hard.draws} (${(vsCpuStats.hard.wins / vsCpuStats.hard.totalGames || 0).toFixed(1)}%)`;
+  const cpuTotal = vsCpuStats.hard.totalGames - (mode === 'VS_CPU' && status === 'PLAYING' ? 1 : 0);
+  const cpuLoss = cpuTotal - vsCpuStats.hard.wins - vsCpuStats.hard.draws;
+  const cpuStats = `${vsCpuStats.hard.wins} / ${cpuLoss} / ${vsCpuStats.hard.draws} (${(vsCpuStats.hard.wins / cpuTotal || 0).toFixed(1)}%)`;
+
   const humanStats = `${twoPlayerStats.wins} / ${twoPlayerStats.totalGames - twoPlayerStats.wins - twoPlayerStats.draws} / ${twoPlayerStats.draws} (${(twoPlayerStats.wins / twoPlayerStats.totalGames || 0).toFixed(1)}%)`;
 
   return (

@@ -11,12 +11,10 @@ import { PlayerSection } from './PlayerSection';
 const BoardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   width: min(600px, 100vw);
-  height: 100vh;
+  height: 100%;
   padding: 20px;
-  padding-top: 80px; /* Space for Navbar */
   gap: 20px;
   position: relative;
 `;

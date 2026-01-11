@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './styles/GlobalStyle';
@@ -8,6 +9,23 @@ import { StartScreen } from './components/StartScreen';
 import { HelpModal } from './components/HelpModal';
 import { useGameStore } from './store/useGameStore';
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const ContentsWrapper = styled.div`
+  width: 100%;
+  height: calc(100vh - 60px);
+
+  @media (max-width: 768px) {
+    height: calc(100vh - 48px);
+  }
+`;
+
 function App() {
   const { status, language } = useGameStore();
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -15,15 +33,17 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle theme={theme} />
-      <Navbar onOpenHelp={() => setIsHelpOpen(true)} />
-
-      {status === 'IDLE' ? <StartScreen /> : <GameBoard />}
-
-      <HelpModal
-        isOpen={isHelpOpen}
-        onClose={() => setIsHelpOpen(false)}
-        language={language}
-      />
+      <Container>
+        <Navbar onOpenHelp={() => setIsHelpOpen(true)} />
+        <ContentsWrapper>
+          {status === 'IDLE' ? <StartScreen /> : <GameBoard />}
+        </ContentsWrapper>
+        <HelpModal
+          isOpen={isHelpOpen}
+          onClose={() => setIsHelpOpen(false)}
+          language={language}
+        />
+      </Container>
     </ThemeProvider>
   );
 }
