@@ -45,17 +45,17 @@ export const LogPanel = () => {
       if (log.bulletCount === 0) {
         return (language === 'ko'
           ? `[${playerStr}] 젤리 ${log.count}개를 뽑았습니다. (+${log.scoreDiff.toLocaleString()}점)`
-          : `[${playerStr}] Drew ${log.count} ${log.count === 1 ? 'jelly' : 'jellies'} (+${log.scoreDiff.toLocaleString()} points)`
+          : `[${playerStr}] Drew ${log.count} ${log.count === 1 ? 'Jelly' : 'Jellies'} (+${log.scoreDiff.toLocaleString()} points)`
         )
       }
       return (language === 'ko'
         ? `[${playerStr}] 젤리 ${log.count}개 중 총알이 ${log.bulletCount}개 뽑혔습니다. (${log.scoreDiff.toLocaleString()}점)`
-        : `[${playerStr}] ${log.count} ${log.count === 1 ? 'jelly' : 'jellies'} drawn, contained ${log.bulletCount} ${log.bulletCount === 1 ? 'bullet' : 'bullets'}. (${log.scoreDiff.toLocaleString()} points)`
+        : `[${playerStr}] ${log.count} ${log.count === 1 ? 'Jelly' : 'Jellies'} drawn, contained ${log.bulletCount} ${log.bulletCount === 1 ? 'Bullet' : 'Bullets'}. (${log.scoreDiff.toLocaleString()} points)`
       )
     } else if (log.type === 'REVEAL') {
       return (language === 'ko'
         ? `첫 총알이 뽑혔습니다. 남은 총알은 ${log.bulletsLeft}개입니다.`
-        : `First bullet drawn. ${log.bulletsLeft} ${log.bulletsLeft === 1 ? 'bullet' : 'bullets'} left.`
+        : `First Bullet drawn. ${log.bulletsLeft} ${log.bulletsLeft === 1 ? 'Bullet' : 'Bullets'} remaining.`
       );
     } else if (log.type === 'END') {
       return (language === 'ko' ? `${playerStr} 승리!` : `${playerStr} wins!`);

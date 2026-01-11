@@ -33,11 +33,11 @@ const ModalContainer = styled.div`
   padding: 10px;
   max-width: 800px;
   width: 90%;
-  max-height: 90vh;
+  max-height: 90%;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 
   @media (max-width: 768px) {
-    height: 80%;
+    max-height: 80%;
   }
 `;
 
@@ -67,9 +67,13 @@ const Content = styled.div`
     margin-bottom: 5px;
   }
 
-  ul div {
+  div {
     display: flex;
     align-items: center;
+  }
+
+  a.en {
+    font-style: italic;
   }
 `;
 
@@ -153,15 +157,10 @@ export const HelpModal = ({ isOpen, onClose, language }: HelpModalProps) => {
           ) : (
             <>
               <h2>Russian Jelly</h2>
-              <p>
-                Russian Jelly is a two-player strategy game that appears in the webtoon <a href="https://comic.naver.com/webtoon/list?titleId=670145" target="_blank">
-                  Kill the King
-                </a> by the creators MASATOKKI / joana.
-              </p>
-              <p>
-                Out of 27 jellies mixed with bullet jellies, two players take turns drawing
-                jellies. The player who earns the higher score wins.
-              </p>
+              <p>Russian Jelly is a two-player strategy game that appears in the webtoon <a className="en" href="https://comic.naver.com/webtoon/list?titleId=670145" target="_blank">
+                Kill the King
+              </a> by MASATOKKI / joana.</p>
+              <p>Out of 27 jellies mixed with bullet jellies, two players take turns drawing jellies. The player who scores more points wins.</p>
 
               <h3>1. How to Play</h3>
               <ul>
