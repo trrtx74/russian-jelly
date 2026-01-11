@@ -23,6 +23,7 @@ const ContentsWrapper = styled.div`
 
   @media (max-width: 768px) {
     height: calc(100vh - 48px);
+    height: calc(100dvh - 48px);
   }
 `;
 

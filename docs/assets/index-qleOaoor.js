@@ -550,5 +550,6 @@ Error generating stack: `+a.message+`
 
   @media (max-width: 768px) {
     height: calc(100vh - 48px);
+    height: calc(100dvh - 48px);
   }
 `;function cr(){const{status:i,language:f}=u2(),[r,s]=L0.useState(!1);return h.jsxs(Df,{theme:sn,children:[h.jsx(Uf,{theme:sn}),h.jsxs(ur,{children:[h.jsx(Js,{onOpenHelp:()=>s(!0)}),h.jsx(ir,{children:i==="IDLE"?h.jsx(Is,{}):h.jsx(qs,{})}),h.jsx(nr,{isOpen:r,onClose:()=>s(!1),language:f})]})]})}Oc.createRoot(document.getElementById("root")).render(h.jsx(L0.StrictMode,{children:h.jsx(cr,{})}));
