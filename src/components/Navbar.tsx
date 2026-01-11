@@ -28,7 +28,11 @@ const NavContainer = styled.nav`
 
 const Title = styled.h1`
   font-size: 2rem;
-  color: ${({ theme }) => theme.colors.primary};
+  /* color: ${({ theme }) => theme.colors.primary}; */
+  background-image: linear-gradient(to bottom right, #ff50d6, #f3bae6); /* 선형 그라데이션 */
+  -webkit-background-clip: text; /* WebKit 브라우저용 */
+  background-clip: text;
+  color: transparent; /* 텍스트 색상을 투명하게 */
   margin: 0;
   
   @media (max-width: 768px) {
@@ -73,14 +77,14 @@ const NavButton = styled.button`
 const StatsContainer = styled.div`
   position: absolute;
   top: 100%;
-  right: 16px;
+  right: 40px;
   top: 100%;
 
   width: 200px;
 
   padding: 10px;
   border: 1px solid #D1C8A3;
-  border-radius: 16px 0 16px 16px;
+  border-radius: 16px;
 
   background-color: ${({ theme }) => theme.colors.background};
 `
@@ -107,8 +111,8 @@ export const Navbar = ({ onOpenHelp }: NavbarProps) => {
     }
   };
 
-  const cpuStats = `${vsCpuStats.hard.wins} / ${vsCpuStats.hard.draws} / ${vsCpuStats.hard.totalGames - vsCpuStats.hard.wins - vsCpuStats.hard.draws} (${(vsCpuStats.hard.wins / vsCpuStats.hard.totalGames || 0).toFixed(1)}%)`;
-  const humanStats = `${twoPlayerStats.wins} / ${twoPlayerStats.draws} / ${twoPlayerStats.totalGames - twoPlayerStats.wins - twoPlayerStats.draws} (${(twoPlayerStats.wins / twoPlayerStats.totalGames || 0).toFixed(1)}%)`;
+  const cpuStats = `${vsCpuStats.hard.wins} / ${vsCpuStats.hard.totalGames - vsCpuStats.hard.wins - vsCpuStats.hard.draws} / ${vsCpuStats.hard.draws} (${(vsCpuStats.hard.wins / vsCpuStats.hard.totalGames || 0).toFixed(1)}%)`;
+  const humanStats = `${twoPlayerStats.wins} / ${twoPlayerStats.totalGames - twoPlayerStats.wins - twoPlayerStats.draws} / ${twoPlayerStats.draws} (${(twoPlayerStats.wins / twoPlayerStats.totalGames || 0).toFixed(1)}%)`;
 
   return (
     <NavContainer>
@@ -119,9 +123,6 @@ export const Navbar = ({ onOpenHelp }: NavbarProps) => {
       <NavActions>
         <NavButton onClick={handleBackToMenu} disabled={status === 'IDLE'}>
           <FaHome size={16} />
-        </NavButton>
-        <NavButton onClick={toggleLanguage}>
-          <FaGlobe size={16} />
         </NavButton>
         <NavButton onClick={onOpenHelp}>
           <FaQuestion size={16} />
@@ -135,9 +136,12 @@ export const Navbar = ({ onOpenHelp }: NavbarProps) => {
             <p>{cpuStats}</p>
             <h4>1P VS 2P</h4>
             <p>{humanStats}</p>
-            <p style={{ fontStyle: 'italic', fontSize: '0.8rem' }}>{language === 'ko' ? '(승/무/패)' : '(Win/Lose/Draw)'}</p>
+            <p style={{ fontStyle: 'italic', fontSize: '0.8rem' }}>{language === 'ko' ? '(승/패/무)' : '(Win/Lose/Draw)'}</p>
           </StatsContainer>
         )}
+        <NavButton onClick={toggleLanguage}>
+          <FaGlobe size={16} />
+        </NavButton>
       </NavActions>
     </NavContainer>
   );

@@ -26,7 +26,7 @@ interface HistoryItem {
   player: string;
   count: number;
   bulletCount: number;
-  totalScore: number;
+  scoreDiff: number;
   bulletsLeft: number | null;
 }
 
@@ -127,7 +127,7 @@ export const useGameStore = create<GameStore>()(
               player: startingPlayer,
               count: 0,
               bulletCount: 0,
-              totalScore: 0,
+              scoreDiff: 0,
               bulletsLeft: null,
             }],
           };
@@ -181,7 +181,7 @@ export const useGameStore = create<GameStore>()(
           player: currentTurn,
           count: count,
           bulletCount: bulletsDrawn,
-          totalScore: scores[currentTurn] + scoreChange,
+          scoreDiff: scoreChange,
           bulletsLeft: isBulletRevealed ? newTotalBullets : null,
         } as HistoryItem;
         newHistory.push(drawHistoryItem);
@@ -197,7 +197,7 @@ export const useGameStore = create<GameStore>()(
             player: currentTurn,
             count: 0,
             bulletCount: bulletsDrawn,
-            totalScore: scores[currentTurn] + scoreChange,
+            scoreDiff: scoreChange,
             bulletsLeft: newTotalBullets,
           } as HistoryItem;
           newHistory.push(revealHistoryItem);
@@ -240,7 +240,7 @@ export const useGameStore = create<GameStore>()(
               player: winner,
               count: count,
               bulletCount: bulletsDrawn,
-              totalScore: scoreChange,
+              scoreDiff: scoreChange,
             } as HistoryItem;
             newHistory.push(endHistoryItem);
 
@@ -287,7 +287,7 @@ export const useGameStore = create<GameStore>()(
           player: winner,
           count: 0,
           bulletCount: 0,
-          totalScore: 0,
+          scoreDiff: 0,
         } as HistoryItem;
 
         set((state) => {

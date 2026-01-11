@@ -7,8 +7,6 @@ export const Jelly = ({
   type = 'JELLY',
   size = 64,
 }: JellyProps) => {
-  // const faceColor = '#ffffaadf';
-  // const shadeColor = '#ffffff86';
   const faceColor = type === 'JELLY' ? '#FFFFAA' : '#cccc64';
   const shadeColor = type === 'JELLY' ? '#ffffff' : '#b39f45';
   const strokeColor = type === 'JELLY' ? '#8a8a50' : '#c41700';
@@ -76,7 +74,7 @@ export const Jelly = ({
         <circle
           cx="50"
           cy="50"
-          r="22"
+          r="20"
           fill="url(#bulletGrad)"
         />
       )}

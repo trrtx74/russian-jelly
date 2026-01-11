@@ -5,6 +5,7 @@ import { ControlPanel } from './ControlPanel';
 import { LogPanel } from './LogPanel';
 import { useAgent } from '../services/useAgent';
 import { JellyCounter } from './JellyCounter';
+import { PlayerSection } from './PlayerSection';
 
 // Layout Components
 const BoardContainer = styled.div`
@@ -16,6 +17,7 @@ const BoardContainer = styled.div`
   height: 100vh;
   padding: 20px;
   padding-top: 80px; /* Space for Navbar */
+  gap: 20px;
   position: relative;
 `;
 
@@ -26,24 +28,24 @@ const PlayerSectionContainer = styled.div`
   gap: 10px;
 `;
 
-const PlayerSection = styled.div<{ $isCurrentTurn: boolean }>`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 20px;
-  border-radius: ${({ theme }) => theme.borderRadius};
-  background: ${({ $isCurrentTurn }) =>
-    $isCurrentTurn ? 'rgba(255, 255, 255, 0.05)' : 'transparent'};
-  transition: ${({ theme }) => theme.transitions.default};
-  border: 2px solid ${({ theme, $isCurrentTurn }) => ($isCurrentTurn ? theme.colors.primary : 'transparent')};
-`;
+// const PlayerSection = styled.div<{ $isCurrentTurn: boolean }>`
+//   flex: 1;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: flex-start;
+//   padding: 20px;
+//   border-radius: ${({ theme }) => theme.borderRadius};
+//   background: ${({ $isCurrentTurn }) =>
+//     $isCurrentTurn ? 'rgba(255, 255, 255, 0.05)' : 'transparent'};
+//   transition: ${({ theme }) => theme.transitions.default};
+//   border: 2px solid ${({ theme, $isCurrentTurn }) => ($isCurrentTurn ? theme.colors.primary : 'transparent')};
+// `;
 
-const ScoreDisplay = styled.h2`
-  font-size: 2rem;
-  color: ${({ theme }) => theme.colors.text};
-`;
+// const ScoreDisplay = styled.h2`
+//   font-size: 2rem;
+//   color: ${({ theme }) => theme.colors.text};
+// `;
 
 const CounterContainer = styled.div`
   display: flex;
@@ -52,8 +54,26 @@ const CounterContainer = styled.div`
   gap: 10px;
 `;
 
+const ResultContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ResultButton = styled.button`
+  margin-top: 20px;
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  background: #4caf50;
+  color: white;
+  border-radius: 12px;
+  border: none;
+`;
+
 const GameBoard = () => {
   const {
+    language,
     status,
     jelliesRemaining,
     bulletsRemaining,
@@ -65,8 +85,7 @@ const GameBoard = () => {
     drawJellies,
     startGame,
     winner,
-    // surrender,
-    mode
+    mode,
   } = useGameStore();
   const agent = useAgent();
 
@@ -74,8 +93,6 @@ const GameBoard = () => {
     if (status === 'PLAYING' && currentTurn === 'PLAYER_2' && mode === 'VS_CPU') {
       // CPU Turn
       const timer = setTimeout(() => {
-        // const action = Agent.predict(jelliesRemaining, bulletsRemaining);
-        // getAction(nRem: number, scoreDiff: number, isRevealed: boolean, nRed: number = 0, temperature: number = 0):
         const scoreDiff = scores.PLAYER_2 - scores.PLAYER_1;
         const action = agent.getAction(jelliesRemaining, scoreDiff, isBulletRevealed, bulletsRemaining);
         drawJellies(action.bestK);
@@ -89,55 +106,37 @@ const GameBoard = () => {
     return null; // App handles StartScreen now
   }
 
-  const isP1Turn = currentTurn === 'PLAYER_1';
-  const isP2Turn = currentTurn === 'PLAYER_2';
+  const P1Str = 'PLAYER 1';
+  const P2Str = mode === 'VS_CPU' ? 'CPU' : 'PLAYER 2';
 
   return (
     <BoardContainer>
       <PlayerSectionContainer>
-        <PlayerSection $isCurrentTurn={isP1Turn}>
-          <h2>PLAYER 1</h2>
-          <ScoreDisplay>{scores.PLAYER_1}</ScoreDisplay>
-          <JellyCounter count={playerJellies.PLAYER_1} type="JELLY" size={32} />
-          <JellyCounter count={playerBullets.PLAYER_1} type="BULLET" size={32} />
-          {/* <button
-            onClick={surrender}
-            style={{
-              color: '#f44336',
-              marginTop: '20px',
-              background: 'transparent',
-              border: '1px solid #f44336',
-              padding: '8px 16px',
-              borderRadius: '8px'
-            }}
-          >
-            Surrender
-          </button> */}
-        </PlayerSection>
-        <PlayerSection $isCurrentTurn={isP2Turn}>
-          <h2>{mode === 'VS_CPU' ? 'CPU' : 'PLAYER 2'}</h2>
-          <ScoreDisplay>{scores.PLAYER_2}</ScoreDisplay>
-          <JellyCounter count={playerJellies.PLAYER_2} type="JELLY" size={32} />
-          <JellyCounter count={playerBullets.PLAYER_2} type="BULLET" size={32} />
-          {/* <button
-            onClick={surrender}
-            style={{
-              color: '#f44336',
-              marginTop: '20px',
-              background: 'transparent',
-              border: '1px solid #f44336',
-              padding: '8px 16px',
-              borderRadius: '8px'
-            }}
-          >
-            Surrender
-          </button> */}
-        </PlayerSection>
+        <PlayerSection
+          isCurrentTurn={currentTurn === 'PLAYER_1'}
+          name={P1Str}
+          score={scores.PLAYER_1}
+          jellies={playerJellies.PLAYER_1}
+          bullets={playerBullets.PLAYER_1}
+        />
+        <PlayerSection
+          isCurrentTurn={currentTurn === 'PLAYER_2'}
+          name={P2Str}
+          score={scores.PLAYER_2}
+          jellies={playerJellies.PLAYER_2}
+          bullets={playerBullets.PLAYER_2}
+        />
       </PlayerSectionContainer>
 
       <CounterContainer>
-        <JellyCounter count={jelliesRemaining} type="JELLY" />
-        <JellyCounter count={isBulletRevealed ? bulletsRemaining : null} type="BULLET" />
+        {isBulletRevealed ? (
+          <>
+            <JellyCounter count={jelliesRemaining} type="JELLY" />
+            <JellyCounter count={bulletsRemaining} type="BULLET" />
+          </>
+        ) : (
+          <JellyCounter count={jelliesRemaining} type="COMBINED" />
+        )}
       </CounterContainer>
 
       {status === 'PLAYING' ? (
@@ -150,24 +149,15 @@ const GameBoard = () => {
           }
         />
       ) : (
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-          <h1>{winner === 'DRAW' ? 'DRAW!' : `${winner} WINS!`}</h1>
-          <button
-            onClick={() => startGame(mode)}
-            style={{
-              marginTop: '20px',
-              padding: '15px 30px',
-              fontSize: '1.5rem',
-              background: '#4caf50',
-              color: 'white',
-              borderRadius: '12px',
-              border: 'none',
-              cursor: 'pointer'
-            }}
-          >
-            Next Round
-          </button>
-        </div>
+        <ResultContainer>
+          <h1>{language === 'ko'
+            ? (winner === 'DRAW' ? '무승부' : `${winner === 'PLAYER_1' ? P1Str : P2Str} 승리!`)
+            : (winner === 'DRAW' ? 'DRAW' : `${winner === 'PLAYER_1' ? P1Str : P2Str} WINS!`)}
+          </h1>
+          <ResultButton onClick={() => startGame(mode)}>
+            {language === 'ko' ? '새 게임' : 'New Game'}
+          </ResultButton>
+        </ResultContainer>
       )}
       <LogPanel />
     </BoardContainer>

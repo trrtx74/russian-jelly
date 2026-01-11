@@ -17,10 +17,15 @@ const Container = styled.div`
 const LogoTop = styled.div`
   font-size: 4rem;
   font-weight: bold;
-  color: ${({ theme }) => theme.colors.primary};
+  background-image: linear-gradient(to bottom right, #ff50d6, #f3bae6); /* 선형 그라데이션 */
+  -webkit-background-clip: text; /* WebKit 브라우저용 */
+  background-clip: text;
+  color: transparent; /* 텍스트 색상을 투명하게 */
+  display: inline-block; /* 그라데이션이 텍스트 너비에 맞게 적용되도록 */
+  /* color: ${({ theme }) => theme.colors.primary}; */
   /* text-shadow: 0 0 20px ${({ theme }) => theme.colors.primary}; */
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.0;
 `;
 
 const LogoBottom = styled.div`
@@ -31,8 +36,11 @@ const LogoBottom = styled.div`
   span {
     font-size: 2.5rem;
     font-weight: bold;
-    color: ${({ theme }) => theme.colors.secondary};
-    /* text-shadow: 0 0 20px ${({ theme }) => theme.colors.bullet}; */
+    color: #6b5700;
+    text-shadow: 10px 5px 20px ${({ theme }) => theme.colors.jelly},
+      10px -5px 20px ${({ theme }) => theme.colors.jelly},
+      -10px -5px 20px ${({ theme }) => theme.colors.jelly},
+      -10px 5px 20px ${({ theme }) => theme.colors.jelly};
     display: block;
   }
 `;
@@ -72,10 +80,6 @@ const MenuButton = styled.button`
     background: ${({ theme }) => theme.colors.primary};
     transform: scale(1.05);
   }
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
 `;
 
 export const StartScreen = () => {
@@ -94,8 +98,8 @@ export const StartScreen = () => {
     </p>
     <p>
       {language === 'ko'
-        ? '하지만 총알이 뽑히면 점수를 잃습니다.'
-        : 'But if bullets get drawn, you lose points.'}
+        ? '하지만 조심하세요! 총알이 뽑히면 점수를 잃습니다.'
+        : 'But be careful! If bullets are drawn, you lose points.'}
     </p>
   </RulesCard>
 
@@ -117,10 +121,10 @@ export const StartScreen = () => {
 
       <ButtonGroup>
         <MenuButton onClick={() => startGame('VS_CPU')}>
-          {language === 'ko' ? 'VS 컴퓨터' : 'VS CPU'}
+          {language === 'ko' ? 'CPU와 대결' : 'VS CPU'}
         </MenuButton>
         <MenuButton onClick={() => startGame('VS_HUMAN')}>
-          {language === 'ko' ? '2인 플레이' : '2 Players'}
+          {language === 'ko' ? '2인 대결' : '2 Players'}
         </MenuButton>
       </ButtonGroup>
 

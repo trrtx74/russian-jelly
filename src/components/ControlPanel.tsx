@@ -11,7 +11,7 @@ interface ControlPanelProps {
 }
 
 const PanelContainer = styled.div`
-  padding: 20px;
+  padding: 0 20px;
   border-radius: ${({ theme }) => theme.borderRadius};
   width: 100%;
   max-width: 600px;
@@ -25,11 +25,13 @@ const ButtonGrid = styled.div`
   width: 440px;
   display: flex;
   justify-content: center;
+  /* align-items: start; */
   flex-wrap: wrap;
-
+  
   @media (max-width: 768px) {
-    width: 240px;
+    width: min(100%, 536px);
     height: 150px;
+    align-content: flex-start;
     overflow-y: auto;
   }
 `;

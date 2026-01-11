@@ -5,10 +5,10 @@ export const theme = {
     primaryHover: 'rgba(247, 120, 183, 1)',
     secondary: '#4F451A', // Cyan/Sky blue for contrast
     text: '#141413',
-    textSecondary: '#080807',
+    textSecondary: '#282826',
     jelly: '#FFFFAA', // Gold/Yellow for Jelly
     bullet: '#000000', // Black for Bullet
-    success: '#91e093ff',
+    success: '#27df2dff',
     error: '#f08982ff',
   },
   borderRadius: '16px',
