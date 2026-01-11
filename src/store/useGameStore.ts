@@ -72,13 +72,24 @@ export const useGameStore = create<GameStore>()(
       language: 'ko',
       setLanguage: (lang) => set({ language: lang }),
       resetHistory: () =>
-        set({
-          vsCpuStats: {
-            easy: { totalGames: 0, wins: 0, draws: 0 },
-            medium: { totalGames: 0, wins: 0, draws: 0 },
-            hard: { totalGames: 0, wins: 0, draws: 0 },
-          },
-          twoPlayerStats: { totalGames: 0, wins: 0, draws: 0 },
+        set((state) => {
+          if (state.mode === 'VS_CPU' && state.status === 'PLAYING') {
+            return {
+              vsCpuStats: {
+                ...state.vsCpuStats,
+                [state.cpuDifficulty]: { totalGames: 1, wins: 0, draws: 0 },
+              },
+              twoPlayerStats: { totalGames: 0, wins: 0, draws: 0 },
+            };
+          }
+          return {
+            vsCpuStats: {
+              easy: { totalGames: 0, wins: 0, draws: 0 },
+              medium: { totalGames: 0, wins: 0, draws: 0 },
+              hard: { totalGames: 0, wins: 0, draws: 0 },
+            },
+            twoPlayerStats: { totalGames: 0, wins: 0, draws: 0 },
+          };
         }),
 
       // Initial Game State
