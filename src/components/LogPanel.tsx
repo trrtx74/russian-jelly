@@ -45,7 +45,7 @@ export const LogPanel = () => {
       if (log.bulletCount === 0) {
         return (language === 'ko'
           ? `[${playerStr}] 젤리 ${log.count}개를 뽑았습니다. (+${log.scoreDiff.toLocaleString()}점)`
-          : `[${playerStr}] Drew ${log.count} ${log.count === 1 ? 'Jelly' : 'Jellies'} (+${log.scoreDiff.toLocaleString()} points)`
+          : `[${playerStr}] Drew ${log.count} ${log.count === 1 ? 'Jelly' : 'Jellies'}. (+${log.scoreDiff.toLocaleString()} points)`
         )
       }
       return (language === 'ko'

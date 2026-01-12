@@ -6,15 +6,88 @@ interface Props {
   jellyCount: number;
   bulletCount: number;
   size?: number;
+  animDirection?: 'LEFT' | 'RIGHT' | 'NONE';
 };
 
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
+
+  @keyframes IndicatorWrapperAnimationLEFT1 {
+    0% {
+      transform: translateX(0);
+    }
+    40% {
+      transform: translateX(-20px);
+    }
+    100% {
+      transform: translateX(-20px);
+    }
+  }
+
+  @keyframes IndicatorWrapperAnimationLEFT2 {
+    0% {
+      transform: translateX(0);
+    }
+    40% {
+      transform: translateX(-20px);
+    }
+    100% {
+      transform: translateX(-20px);
+    }
+  }
+
+  @keyframes IndicatorWrapperAnimationRIGHT1 {
+    0% {
+      transform: translateX(0);
+    }
+    40% {
+      transform: translateX(20px);
+    }
+    100% {
+      transform: translateX(20px);
+    }
+  }
+
+  @keyframes IndicatorWrapperAnimationRIGHT2 {
+    0% {
+      transform: translateX(0);
+    }
+    40% {
+      transform: translateX(20px);
+    }
+    100% {
+      transform: translateX(20px);
+    }
+  }
+
+  @keyframes IndicatorWrapperAnimationNONE1 {
+    0% {
+      transform: translateX(0);
+    }
+    40% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes IndicatorWrapperAnimationNONE2 {
+    0% {
+      transform: translateX(0);
+    }
+    40% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
 `;
 
 const Container = styled.div`
-  width: 100%;
+  width: 160px;
   position: absolute;
   top: 0;
   left: 50%;
@@ -64,6 +137,7 @@ export const JellyIndicator = ({
   jellyCount,
   bulletCount,
   size = 32,
+  animDirection = 'NONE',
 }: Props) => {
   const [anim, setAnim] = useState<number | null>(null);
   const [diff, setDiff] = useState([0, 0]);
@@ -83,8 +157,12 @@ export const JellyIndicator = ({
   }, [jellyCount, bulletCount]);
 
   return (
-    <Wrapper>
-      <Container style={{ animation: anim !== null ? `IndicatorAnimation${anim} 2s` : 'none' }}>
+    <Wrapper
+      style={{ animation: anim !== null ? `IndicatorWrapperAnimation${animDirection}${anim} 2s` : 'none' }}
+    >
+      <Container
+        style={{ animation: anim !== null ? `IndicatorAnimation${anim} 2s` : 'none' }}
+      >
         {Array.from({ length: diff[1] }, (_, i) => (
           <Jelly key={`bullet-${i}`} type="BULLET" size={size} />
         ))}

@@ -130,6 +130,7 @@ const GameBoard = () => {
       <JellyIndicator
         jellyCount={playerJellies.PLAYER_1 + playerJellies.PLAYER_2 - playerBullets.PLAYER_1 - playerBullets.PLAYER_2}
         bulletCount={playerBullets.PLAYER_1 + playerBullets.PLAYER_2}
+        animDirection={currentTurn === 'PLAYER_1' ? 'LEFT' : 'RIGHT'}
       />
       <CounterContainer>
         {isBulletRevealed ? (
