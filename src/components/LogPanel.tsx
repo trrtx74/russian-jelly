@@ -58,10 +58,13 @@ export const LogPanel = () => {
         : `First Bullet drawn. ${log.bulletsLeft} ${log.bulletsLeft === 1 ? 'Bullet' : 'Bullets'} remaining.`
       );
     } else if (log.type === 'END') {
-      return (language === 'ko' ? `${playerStr} 승리!` : `${playerStr} wins!`);
-    } else {
-      return '.';
+      if (log.player === 'DRAW') {
+        return (language === 'ko' ? '무승부!' : 'Draw!');
+      } else {
+        return (language === 'ko' ? `${playerStr} 승리!` : `${playerStr} wins!`);
+      }
     }
+    return '.';
   });
 
   // useEffect(() => {
