@@ -85,6 +85,7 @@ const NavButton = styled.button`
 `;
 
 const ResetButton = styled(NavButton)`
+  margin-top: 5px;
   margin-left: auto;
 `;
 
@@ -94,11 +95,13 @@ const StatsContainer = styled.div`
   right: 36px;
   top: 100%;
 
-  width: 200px;
+  /* width: 200px; */
 
   padding: 10px;
   border: 1px solid #D1C8A3;
   border-radius: 16px;
+
+  z-index: 100;
 
   background-color: ${({ theme }) => theme.colors.background};
 `
