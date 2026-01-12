@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 // import { GiCardPickup } from "react-icons/gi";
 import { useGameStore } from '../store/useGameStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { Jelly } from './Jelly';
 
 interface ControlPanelProps {
@@ -113,6 +113,7 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
   // const [selectedCount, setSelectedCount] = useState<number | null>(null);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>, count: number) => {
+    if (disabled) return;
     if (e.pointerType === 'touch') {
       setHoverCount(count);
       // setSelectedCount(count);
@@ -120,6 +121,7 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
   }
 
   const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>, count: number) => {
+    if (disabled) return;
     if (e.pointerType === 'mouse') {
       onDraw(count);
     }
@@ -133,18 +135,21 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
   // }
 
   const handlePointerEnter = (e: React.PointerEvent<HTMLButtonElement>, count: number) => {
+    if (disabled) return;
     if (e.pointerType === 'mouse') {
       setHoverCount(count);
     }
   }
 
   const handlePointerLeave = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (disabled) return;
     if (e.pointerType === 'mouse') {
       setHoverCount(null);
     }
   }
 
   const handleConfirm = () => {
+    if (disabled) return;
     onDraw(hoverCount || 1);
     if (mode === 'VS_HUMAN') {
       setHoverCount(null);
@@ -156,6 +161,12 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
     0, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0,
     17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
   ]
+
+  useEffect(() => {
+    if (!disabled) {
+      setHoverCount(Math.min(hoverCount || 1, maxJellies));
+    }
+  }, [disabled]);
 
   return (
     <PanelContainer>
@@ -194,9 +205,9 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
       </ButtonGrid>
       <ConfirmButton
         onClick={handleConfirm}
-        disabled={!hoverCount}
+        disabled={!hoverCount || disabled}
       >
-        {language === 'ko' ? (hoverCount ? `${hoverCount}개 뽑기` : '뽑기') : (hoverCount ? `Draw ${hoverCount}` : 'Draw')}
+        {language === 'ko' ? (hoverCount && !disabled ? `${hoverCount}개 뽑기` : '뽑기') : (hoverCount && !disabled ? `Draw ${hoverCount}` : 'Draw')}
         {/* {hoverCount ? `${hoverCount}` : ''} <GiCardPickup /> */}
       </ConfirmButton>
     </PanelContainer>

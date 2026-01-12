@@ -91,11 +91,11 @@ const GameBoard = () => {
   useEffect(() => {
     if (status === 'PLAYING' && currentTurn === 'PLAYER_2' && mode === 'VS_CPU') {
       // CPU Turn
+      const scoreDiff = scores.PLAYER_2 - scores.PLAYER_1;
+      const action = agent.getAction(jelliesRemaining, scoreDiff, isBulletRevealed, bulletsRemaining).bestK;
       const timer = setTimeout(() => {
-        const scoreDiff = scores.PLAYER_2 - scores.PLAYER_1;
-        const action = agent.getAction(jelliesRemaining, scoreDiff, isBulletRevealed, bulletsRemaining);
-        drawJellies(action.bestK);
-      }, 1000); // 1 second "thinking" time
+        drawJellies(action);
+      }, action > 9 ? 2000 : action > 4 ? 1500 : 1000); // emulate think time
 
       return () => clearTimeout(timer);
     }
@@ -130,7 +130,7 @@ const GameBoard = () => {
       <JellyIndicator
         jellyCount={playerJellies.PLAYER_1 + playerJellies.PLAYER_2 - playerBullets.PLAYER_1 - playerBullets.PLAYER_2}
         bulletCount={playerBullets.PLAYER_1 + playerBullets.PLAYER_2}
-        animDirection={currentTurn === 'PLAYER_1' ? 'LEFT' : 'RIGHT'}
+        animDirection={(currentTurn === 'PLAYER_1') !== (status === 'PLAYING') ? 'LEFT' : 'RIGHT'}
       />
       <CounterContainer>
         {isBulletRevealed ? (
