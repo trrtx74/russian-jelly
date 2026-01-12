@@ -18,6 +18,7 @@ interface VsCpuStats {
   easy: Stats;
   medium: Stats;
   hard: Stats;
+  engineVersion: string;
 }
 
 interface HistoryItem {
@@ -67,6 +68,7 @@ export const useGameStore = create<GameStore>()(
         easy: { totalGames: 0, wins: 0, draws: 0 },
         medium: { totalGames: 0, wins: 0, draws: 0 },
         hard: { totalGames: 0, wins: 0, draws: 0 },
+        engineVersion: '1.0.0',
       },
       twoPlayerStats: { totalGames: 0, wins: 0, draws: 0 },
       language: 'ko',
@@ -87,6 +89,7 @@ export const useGameStore = create<GameStore>()(
               easy: { totalGames: 0, wins: 0, draws: 0 },
               medium: { totalGames: 0, wins: 0, draws: 0 },
               hard: { totalGames: 0, wins: 0, draws: 0 },
+              engineVersion: '1.0.0',
             },
             twoPlayerStats: { totalGames: 0, wins: 0, draws: 0 },
           };
