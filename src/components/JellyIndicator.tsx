@@ -140,14 +140,12 @@ export const JellyIndicator = ({
   animDirection = 'NONE',
 }: Props) => {
   const [anim, setAnim] = useState<number | null>(null);
-  const [diff, setDiff] = useState([0, 0]);
   const [prevCount, setPrevCount] = useState([jellyCount, bulletCount]);
   const [jellyArray, setJellyArray] = useState<("JELLY" | "BULLET")[]>([]);
 
   useEffect(() => {
     if (jellyCount !== null && bulletCount !== null && prevCount !== null) {
       const newDiff = [jellyCount - prevCount[0], bulletCount - prevCount[1]];
-      setDiff(newDiff);
       setPrevCount([jellyCount, bulletCount]);
 
       const newJellyArray = getRandomJellyArray(newDiff[0], newDiff[1]);
@@ -168,12 +166,6 @@ export const JellyIndicator = ({
       <Container
         style={{ animation: anim !== null ? `IndicatorAnimation${anim} 2s` : 'none' }}
       >
-        {/* {Array.from({ length: diff[1] }, (_, i) => (
-          <Jelly key={`bullet-${i}`} type="BULLET" size={size} />
-        ))}
-        {Array.from({ length: diff[0] }, (_, i) => (
-          <Jelly key={`jelly-${i}`} type="JELLY" size={size} />
-        ))} */}
         {jellyArray.map((type, i) => (
           <Jelly key={i} type={type} size={size} />
         ))}
