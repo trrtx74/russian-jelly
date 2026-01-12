@@ -104,6 +104,10 @@ const StatsContainer = styled.div`
   z-index: 100;
 
   background-color: ${({ theme }) => theme.colors.background};
+
+  p {
+    margin-bottom: 5px;
+  }
 `
 
 export const Navbar = ({ onOpenHelp }: NavbarProps) => {
@@ -135,9 +139,9 @@ export const Navbar = ({ onOpenHelp }: NavbarProps) => {
 
   const cpuTotal = vsCpuStats.hard.totalGames - (mode === 'VS_CPU' && status === 'PLAYING' ? 1 : 0);
   const cpuLoss = cpuTotal - vsCpuStats.hard.wins - vsCpuStats.hard.draws;
-  const cpuStats = `${vsCpuStats.hard.wins} / ${cpuLoss} / ${vsCpuStats.hard.draws} (${(vsCpuStats.hard.wins / cpuTotal || 0).toFixed(1)}%)`;
+  const cpuStats = `${vsCpuStats.hard.wins} / ${cpuLoss} / ${vsCpuStats.hard.draws} (${(vsCpuStats.hard.wins / cpuTotal * 100 || 0).toFixed(1)}%)`;
 
-  const humanStats = `${twoPlayerStats.wins} / ${twoPlayerStats.totalGames - twoPlayerStats.wins - twoPlayerStats.draws} / ${twoPlayerStats.draws} (${(twoPlayerStats.wins / twoPlayerStats.totalGames || 0).toFixed(1)}%)`;
+  const humanStats = `${twoPlayerStats.wins} / ${twoPlayerStats.totalGames - twoPlayerStats.wins - twoPlayerStats.draws} / ${twoPlayerStats.draws} (${(twoPlayerStats.wins / twoPlayerStats.totalGames * 100 || 0).toFixed(1)}%)`;
 
   return (
     <NavContainer>
