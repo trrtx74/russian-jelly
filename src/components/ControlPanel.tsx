@@ -50,13 +50,19 @@ const DrawButton = styled.button<{ $isHighlighted?: boolean, $isHovered?: boolea
   font-size: ${({ $isHovered }) => $isHovered ? '1.5rem' : '1rem'};
 
   &:disabled {
+    border-color: #000000;
     opacity: 0.5;
     cursor: default;
+  }
+
+  &.isHidden {
+    opacity: 0.5;
     color: transparent;
     background: transparent;
     border-color: #555;
     border-radius: 50%;
     transform: scale(0.2);
+    cursor: default;
   }
 
   @media (max-width: 768px) {
@@ -64,7 +70,7 @@ const DrawButton = styled.button<{ $isHighlighted?: boolean, $isHovered?: boolea
     height: 60px;
     font-size: ${({ $isHovered }) => $isHovered ? '2rem' : '1.5rem'};
 
-    &:disabled {
+    &.isHidden {
       display: none;
     }
   }
@@ -102,7 +108,7 @@ const ConfirmButton = styled.button`
 `;
 
 export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps) => {
-  const { language } = useGameStore();
+  const { language, mode } = useGameStore();
   const [hoverCount, setHoverCount] = useState<number | null>(null);
   // const [selectedCount, setSelectedCount] = useState<number | null>(null);
 
@@ -140,7 +146,9 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
 
   const handleConfirm = () => {
     onDraw(hoverCount || 1);
-    setHoverCount(null);
+    if (mode === 'VS_HUMAN') {
+      setHoverCount(null);
+    }
   }
 
   const buttons = [
@@ -165,6 +173,7 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
             return (
               <DrawButton
                 key={`button-${i}`}
+                className={count > maxJellies ? 'isHidden' : ''}
                 // onClick={(e) => onButtonClick(e, count)}
                 // onMouseEnter={() => setHoverCount(count)}
                 // onMouseLeave={() => setHoverCount(null)}
@@ -173,9 +182,9 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
                 // onPointerMove={(e) => onPointerMove(e, count)}
                 onPointerUp={(e) => handlePointerUp(e, count)}
                 onPointerDown={(e) => handlePointerDown(e, count)}
-                disabled={disabled || count > maxJellies}
-                $isHighlighted={(hoverCount || 0) >= count}
-                $isHovered={hoverCount === count}
+                disabled={disabled}
+                $isHighlighted={!disabled && (hoverCount || 0) >= count}
+                $isHovered={!disabled && hoverCount === count}
               >
                 {count}
               </DrawButton>
