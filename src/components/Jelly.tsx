@@ -1,11 +1,17 @@
 interface JellyProps {
   type?: 'JELLY' | 'BULLET';
   size?: number;
+  marginLeft?: number;
+  marginRight?: number;
+  marginBottom?: number;
 };
 
 export const Jelly = ({
   type = 'JELLY',
   size = 64,
+  marginLeft = 0,
+  marginRight = 0,
+  marginBottom = 0,
 }: JellyProps) => {
   const faceColor = type === 'JELLY' ? '#FFFFAA' : '#cccc64';
   const shadeColor = type === 'JELLY' ? '#ffffff' : '#b39f45';
@@ -17,6 +23,11 @@ export const Jelly = ({
       height={size}
       viewBox="10 10 80 80"
       xmlns="http://www.w3.org/2000/svg"
+      style={{
+        marginBottom: `${marginBottom}px`,
+        marginLeft: `${marginLeft}px`,
+        marginRight: `${marginRight}px`,
+      }}
     >
       <defs>
         <linearGradient id={type === 'JELLY' ? 'topGrad' : 'bulletTopGrad'} x1="0" y1="0" x2="1" y2="0">
@@ -70,14 +81,16 @@ export const Jelly = ({
         strokeWidth={strokeScale}
       />
 
-      {type === 'BULLET' && (
-        <circle
-          cx="50"
-          cy="50"
-          r="20"
-          fill="url(#bulletGrad)"
-        />
-      )}
+      {
+        type === 'BULLET' && (
+          <circle
+            cx="50"
+            cy="50"
+            r="20"
+            fill="url(#bulletGrad)"
+          />
+        )
+      }
 
       {/* outline */}
       <polygon
@@ -86,6 +99,6 @@ export const Jelly = ({
         stroke={strokeColor}
         strokeWidth={2 * strokeScale}
       />
-    </svg>
+    </svg >
   );
 };

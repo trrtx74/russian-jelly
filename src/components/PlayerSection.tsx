@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { JellyCounter } from "./JellyCounter";
+import { JellyIndicator } from "./JellyIndicator";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -125,6 +126,10 @@ export const PlayerSection = ({
       >
         Surrender
       </button> */}
+      <JellyIndicator
+        jellyCount={jellies - bullets}
+        bulletCount={bullets}
+      />
     </Container>
   )
 }
