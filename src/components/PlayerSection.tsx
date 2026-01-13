@@ -33,7 +33,7 @@ const ScoreDisplay = styled.h2<{ $size?: number }>`
 
 const ScoreDiff = styled.div<{ $isBad?: boolean }>`
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 100%;
   font-size: 1.8rem;
   margin-left: 10px;
@@ -45,12 +45,12 @@ const ScoreDiff = styled.div<{ $isBad?: boolean }>`
       opacity: 1;
       transform: translateY(0);
     }
-    50% {
+    40% {
       opacity: 1;
     }
     100% {
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-4px);
     }
   }
 
@@ -59,12 +59,12 @@ const ScoreDiff = styled.div<{ $isBad?: boolean }>`
       opacity: 1;
       transform: translateY(0);
     }
-    50% {
+    40% {
       opacity: 1;
     }
     100% {
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-4px);
     }
   }
 `;

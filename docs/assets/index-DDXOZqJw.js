@@ -247,7 +247,7 @@ Error generating stack: `+a.message+`
   color: ${({theme:i})=>i.colors.text};
 `,Bs=n0.div`
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 100%;
   font-size: 1.8rem;
   margin-left: 10px;
@@ -259,12 +259,12 @@ Error generating stack: `+a.message+`
       opacity: 1;
       transform: translateY(0);
     }
-    50% {
+    40% {
       opacity: 1;
     }
     100% {
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-4px);
     }
   }
 
@@ -273,12 +273,12 @@ Error generating stack: `+a.message+`
       opacity: 1;
       transform: translateY(0);
     }
-    50% {
+    40% {
       opacity: 1;
     }
     100% {
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-4px);
     }
   }
 `,pn=({isCurrentTurn:i,name:c,score:r,jellies:s,bullets:m})=>{const[d,S]=N0.useState(null),[T,x]=N0.useState(0),[v,U]=N0.useState(r);N0.useEffect(()=>{r!==null&&v!==null&&(x(r-v),U(r),S(s===0?null:d?3-d:1))},[r]);const C=r<1e3&&r>-1e3?2:r<1e5&&r>-1e5?1.8:1.5;return h.jsxs(Ns,{$isCurrentTurn:i,children:[h.jsx("h2",{children:c}),h.jsxs(Ys,{$size:C,children:[r.toLocaleString(),h.jsxs(Bs,{style:{animation:d?`ScoreDiffAnimation${d} 3s`:"none"},$isBad:T<0,children:[T>0&&"+",T.toLocaleString()]})]}),h.jsx(n3,{count:s-m,type:"JELLY",size:32}),h.jsx(n3,{count:m,type:"BULLET",size:32}),h.jsx(Rs,{jellyCount:s-m,bulletCount:m})]})},Hs=n0.div`
