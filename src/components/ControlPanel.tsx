@@ -101,29 +101,31 @@ const ConfirmButton = styled.button`
     cursor: default;
     background: transparent;
   }
-
-  @media (min-width: 768px) {
-    display: none;
-  }
 `;
 
 export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps) => {
   const { language, mode } = useGameStore();
   const [hoverCount, setHoverCount] = useState<number | null>(null);
+  const [isTouchInput, setIsTouchInput] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 768;
+  });
   // const [selectedCount, setSelectedCount] = useState<number | null>(null);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>, count: number) => {
     if (disabled) return;
     if (e.pointerType === 'touch') {
       setHoverCount(count);
+      setIsTouchInput(true);
       // setSelectedCount(count);
     }
   }
 
   const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>, count: number) => {
     if (disabled) return;
-    if (e.pointerType === 'mouse') {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
       onDraw(count);
+      setIsTouchInput(false);
     }
   }
 
@@ -136,15 +138,17 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
 
   const handlePointerEnter = (e: React.PointerEvent<HTMLButtonElement>, count: number) => {
     if (disabled) return;
-    if (e.pointerType === 'mouse') {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
       setHoverCount(count);
+      setIsTouchInput(false);
     }
   }
 
   const handlePointerLeave = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (disabled) return;
-    if (e.pointerType === 'mouse') {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
       setHoverCount(null);
+      setIsTouchInput(false);
     }
   }
 
@@ -203,13 +207,15 @@ export const ControlPanel = ({ maxJellies, onDraw, disabled }: ControlPanelProps
           }
         })}
       </ButtonGrid>
-      <ConfirmButton
-        onClick={handleConfirm}
-        disabled={!hoverCount || disabled}
-      >
-        {language === 'ko' ? (hoverCount && !disabled ? `${hoverCount}개 뽑기` : '뽑기') : (hoverCount && !disabled ? `Draw ${hoverCount}` : 'Draw')}
-        {/* {hoverCount ? `${hoverCount}` : ''} <GiCardPickup /> */}
-      </ConfirmButton>
+      {isTouchInput &&
+        <ConfirmButton
+          onClick={handleConfirm}
+          disabled={!hoverCount || disabled}
+        >
+          {language === 'ko' ? (hoverCount && !disabled ? `${hoverCount}개 뽑기` : '뽑기') : (hoverCount && !disabled ? `Draw ${hoverCount}` : 'Draw')}
+          {/* {hoverCount ? `${hoverCount}` : ''} <GiCardPickup /> */}
+        </ConfirmButton>
+      }
     </PanelContainer>
   );
 };
